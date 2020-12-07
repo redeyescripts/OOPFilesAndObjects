@@ -1,0 +1,81 @@
+##
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace OOPListsAndObjects
+{
+    class Program
+    {
+        class planet
+        {
+            string name;
+            int mass;
+            
+            public planet(string _name, int _mass)
+            {
+                name = _name;
+                mass = _mass;
+            }
+            public string Name { get { return name; } }
+            public int Mass { get { return mass; } }
+        }
+
+        class ListOfPlanets
+        {
+            List<planet> planets;
+            int totalMass;
+            public ListOfPlanets()
+            {
+                planets = new List<planet>();
+                totalMass = 0;
+
+            }
+
+            public void AddPlanetToList(string planetName,int planetMass)
+            {
+                planet newPlanet = new planet(planetName, planetMass);
+                planets.Add(newPlanet);
+                    
+            }
+            public void PrintPlanets()
+            {
+                foreach(planet planetFromList in planets)
+                {
+                    Console.WriteLine($"Planet: {planetFromList.Name}; Mass:{planetFromList.Mass}");
+
+                }
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            ListOfPlanets newPlanetsList = new ListOfPlanets();
+            Console.WriteLine("######");
+            //PrintPlanets();
+           // AddPlanetToList();
+            string filePath = @"C:\Users\opilane\samples";
+            string fielName = @"planets.txt";
+            string fullPath = Path.Combine(filePath, fielName);
+
+            string[] planetsFromFile = File.ReadAllLines(fullPath);
+            foreach (string line in planetsFromFile)
+            {
+                string[] tempArray = line.Split(new char[] { '$' }, StringSplitOptions.RemoveEmptyEntries);
+                string planetName = tempArray[0];
+                int planetMass = int.Parse(tempArray[1]);
+                Console.WriteLine(planetName);
+                Console.WriteLine(planetMass);
+                Console.WriteLine("******");
+
+
+               
+                newPlanetsList.AddPlanetToList(planetName,planetMass);
+                
+
+            }
+              newPlanetsList.PrintPlanets();
+        }
+    }
+}
+##
